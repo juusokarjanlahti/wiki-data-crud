@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Monster Details</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 th:text="${monster.monster_name}">Monster Name</h1>
+            <p th:text="${monster.monster_examine}">Monster Examine</p>
+            <p>Combat Level: <span th:text="${monster.combatLevel}">Combat Level</span></p>
+            <h2>Drop Table</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Rarity</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dropTable : ${monster.dropTables}">
+                    <td th:text="${dropTable.itemName}">Item Name</td>
+                    <td th:text="${dropTable.quantity}">Quantity</td>
+                    <td>
+                        <ul>
+                            <li th:each="item : ${dropTable.items}">
+                                <span th:text="${item.name}">Item Name</span> - 
+                                <span th:text="${item.rarity}">Rarity</span>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

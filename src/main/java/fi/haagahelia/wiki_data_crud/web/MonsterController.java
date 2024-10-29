@@ -1,36 +1,28 @@
 package fi.haagahelia.wiki_data_crud.web;
-
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import fi.haagahelia.wiki_data_crud.domain.DropTable;
-import fi.haagahelia.wiki_data_crud.domain.DropTableRepository;
 import fi.haagahelia.wiki_data_crud.domain.Monster;
-import fi.haagahelia.wiki_data_crud.domain.MonsterRepository;
-
 
 @Controller
 public class MonsterController {
 
     @Autowired
-    private MonsterRepository monsterRepository;
+    private MonsterService monsterService;
 
-    @Autowired
-    private DropTableRepository dropTableRepository;
-
-    @GetMapping
-    public List<Monster> getDropTable() {
-        return monsterRepository.findAll();
+    @GetMapping("/monsters/{id}")
+    public String getMonster(@PathVariable Long id, Model model) {
+        Optional<Monster> monster = monsterService.getMonsterWithDropTables(id);
+        if (monster.isPresent()) {
+            model.addAttribute("monster", monster.get());
+            return "monster";
+        } else {
+            return "monster-not-found";
+        }
     }
-
-    @GetMapping(value = "/monsterlist")
-    public String monsterList(Model model) {
-        model.addAttribute("monsters", monsterRepository.findAll());
-        return "monsterlist";
-    }
-    
 }

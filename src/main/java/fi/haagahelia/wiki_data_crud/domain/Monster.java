@@ -3,11 +3,10 @@ package fi.haagahelia.wiki_data_crud.domain;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-
+import java.util.List;
 
 @Entity
 public class Monster {
@@ -18,16 +17,13 @@ public class Monster {
     private String monster_examine;
     private int combatLevel;
 
-    @OneToOne(mappedBy = "monster", cascade = CascadeType.ALL)
-    @JoinColumn(name = "drop_table_id", referencedColumnName = "drop_table_id")
-    private DropTable dropTable;
-    // Getterit, Setterit, Konstruktorit
+    @OneToMany(mappedBy = "monster", cascade = CascadeType.ALL)
+    private List<DropTable> dropTable;
 
     public Monster() {
     }
 
     public Monster(String monster_name, String monster_examine, int combatLevel) {
-        super();
         this.monster_name = monster_name;
         this.monster_examine = monster_examine;
         this.combatLevel = combatLevel;
@@ -47,6 +43,14 @@ public class Monster {
 
     public void setMonster_name(String monster_name) {
         this.monster_name = monster_name;
+    }
+
+    public List<DropTable> getDropTable() {
+        return dropTable;
+    }
+
+    public void setDropTable(List<DropTable> dropTable) {
+        this.dropTable = dropTable;
     }
 
     @Override

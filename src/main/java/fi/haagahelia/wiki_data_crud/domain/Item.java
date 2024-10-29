@@ -1,16 +1,32 @@
 package fi.haagahelia.wiki_data_crud.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long item_id;
+
     private String itemName;
     private int quantity;
     private double rarity;
+
+    // Many items can belong to one specific DropTable
+    @ManyToOne
+    // foreign key in the Item table that references the DropTable table
+    @JoinColumn(name = "drop_table_id", referencedColumnName = "drop_table_id")
+    private DropTable dropTable; // reference to DropTable
 
     public Item() {
     }
 
     public Item(String itemName, int quantity, double rarity) {
-        super();
         this.itemName = itemName;
         this.quantity = quantity;
         this.rarity = rarity;

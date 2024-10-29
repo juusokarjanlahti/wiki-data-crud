@@ -31,8 +31,8 @@ public class WikiDataCrudApplication {
 			monsterRepository.save(cow);
 
 			log.info("save a couple of drop tables");
-			DropTable chickenDropTable = new DropTable("Feather", 1, 0.5);
-			DropTable cowDropTable = new DropTable("Cowhide", 1, 0.5);
+			DropTable chickenDropTable = new DropTable("Feathers", 1, 0.5, chicken);
+			DropTable cowDropTable = new DropTable("Cowhide", 1, 0.5, cow);
 			dropTableRepository.save(chickenDropTable);
 			dropTableRepository.save(cowDropTable);
 

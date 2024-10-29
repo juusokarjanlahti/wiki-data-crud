@@ -1,11 +1,15 @@
 package fi.haagahelia.wiki_data_crud.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+import java.util.List;
 
 @Entity
 public class DropTable {
@@ -15,22 +19,25 @@ public class DropTable {
 
     private String itemName;
     private int quantity;
-    private double rarity;
+    private double dropRate;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "monster_id", referencedColumnName = "monster_id")
     private Monster monster;
+
+    @OneToMany(mappedBy = "dropTable", cascade = CascadeType.ALL)
+    private List<Item> items;
 
     // Getters, Setters, Constructors
 
     public DropTable() {
     }
 
-    public DropTable(String itemName, int quantity, double rarity) {
-        super();
+    public DropTable(String itemName, int quantity, double dropRate, Monster monster) {
         this.itemName = itemName;
         this.quantity = quantity;
-        this.rarity = rarity;
+        this.dropRate = dropRate;
+        this.monster = monster;
     }
 
     public Long getDrop_table_id() {
@@ -57,12 +64,12 @@ public class DropTable {
         this.quantity = quantity;
     }
 
-    public double getRarity() {
-        return rarity;
+    public double getDropRate() {
+        return dropRate;
     }
 
-    public void setRarity(double rarity) {
-        this.rarity = rarity;
+    public void setDropRate(double dropRate) {
+        this.dropRate = dropRate;
     }
 
     public Monster getMonster() {
@@ -73,11 +80,16 @@ public class DropTable {
         this.monster = monster;
     }
 
-    @Override
-    public String toString() {
-        return "DropTable [drop_table_id=" + drop_table_id + ", itemName=" + itemName + ", quantity=" + quantity
-                + ", rarity=" + rarity + "]";
+    public List<Item> getItems() {
+        return items;
     }
 
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
 
+    @Override
+    public String toString() {
+        return "DropTable [drop_table_id=" + drop_table_id + ", itemName=" + itemName + ", quantity=" + quantity + ", dropRate=" + dropRate + "]";
+    }
 }
