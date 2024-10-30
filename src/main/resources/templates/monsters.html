@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Monster List</title>
+    <title>Monsters List</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1>Monster List</h1>
+            <h1>Monsters List</h1>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -20,8 +20,8 @@
                 <tbody>
                 <tr th:each="monster : ${monsters}">
                     <td th:text="${monster.name}">Name</td>
-                    <td th:text="${monster.examine}">Element</td>
-                    <td th:text="${monster.combatlevel}">Level</td>
+                    <td th:text="${monster.examine}">Examine</td>
+                    <td th:text="${monster.combatLevel}">Combat Level</td>
                 </tr>
                 </tbody>
             </table>

@@ -14,32 +14,31 @@ import fi.haagahelia.wiki_data_crud.domain.MonsterRepository;
 
 @SpringBootApplication
 public class WikiDataCrudApplication {
-	private static final Logger log = LoggerFactory.getLogger(WikiDataCrudApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(WikiDataCrudApplication.class);
 
+    public static void main(String[] args) {
+        SpringApplication.run(WikiDataCrudApplication.class, args);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(WikiDataCrudApplication.class, args);
-	}
+    @Bean
+    public CommandLineRunner demo(MonsterRepository monsterRepository, DropTableRepository dropTableRepository) {
+        return (args) -> {
+            log.info("save a couple of monsters");
+            Monster chicken = new Monster("Chicken", "Bwak", 3);
+            Monster cow = new Monster("Cow", "Moo", 10);
+            monsterRepository.save(chicken);
+            monsterRepository.save(cow);
 
-	@Bean
-	public CommandLineRunner demo(MonsterRepository monsterRepository, DropTableRepository dropTableRepository) {
-		return (args) -> {
-			log.info("save a couple of monsters");
-			Monster chicken = new Monster("Chicken", "Bwak", 3);
-			Monster cow = new Monster("Cow", "Moo", 10);
-			monsterRepository.save(chicken);
-			monsterRepository.save(cow);
+            log.info("save a couple of drop tables");
+            DropTable chickenDropTable = new DropTable("Feathers", 1, 0.5);
+            DropTable cowDropTable = new DropTable("Cowhide", 1, 0.5);
+            dropTableRepository.save(chickenDropTable);
+            dropTableRepository.save(cowDropTable);
 
-			log.info("save a couple of drop tables");
-			DropTable chickenDropTable = new DropTable("Feathers", 1, 0.5, chicken);
-			DropTable cowDropTable = new DropTable("Cowhide", 1, 0.5, cow);
-			dropTableRepository.save(chickenDropTable);
-			dropTableRepository.save(cowDropTable);
-
-			log.info("fetch all monsters");
-			for (Monster monster : monsterRepository.findAll()) {
-				log.info(monster.toString());
-			}
-		};
-	}
+            log.info("fetch all monsters");
+            for (Monster monster : monsterRepository.findAll()) {
+                log.info(monster.toString());
+            }
+        };
+    }
 }

@@ -1,22 +1,17 @@
 package fi.haagahelia.wiki_data_crud.domain;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-
-import java.util.List;
 
 @Entity
 public class DropTable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long drop_table_id;
-
     private String itemName;
     private int quantity;
     private double dropRate;
@@ -25,21 +20,17 @@ public class DropTable {
     @JoinColumn(name = "monster_id", referencedColumnName = "monster_id")
     private Monster monster;
 
-    @OneToMany(mappedBy = "dropTable", cascade = CascadeType.ALL)
-    private List<Item> items;
-
-    // Getters, Setters, Constructors
-
     public DropTable() {
     }
 
-    public DropTable(String itemName, int quantity, double dropRate, Monster monster) {
+    public DropTable(String itemName, int quantity, double dropRate) {
+        super();
         this.itemName = itemName;
         this.quantity = quantity;
         this.dropRate = dropRate;
-        this.monster = monster;
     }
 
+    // id
     public Long getDrop_table_id() {
         return drop_table_id;
     }
@@ -48,6 +39,7 @@ public class DropTable {
         this.drop_table_id = drop_table_id;
     }
 
+    // name
     public String getItemName() {
         return itemName;
     }
@@ -56,6 +48,7 @@ public class DropTable {
         this.itemName = itemName;
     }
 
+    // quantity
     public int getQuantity() {
         return quantity;
     }
@@ -64,6 +57,7 @@ public class DropTable {
         this.quantity = quantity;
     }
 
+    // drop rate
     public double getDropRate() {
         return dropRate;
     }
@@ -72,20 +66,13 @@ public class DropTable {
         this.dropRate = dropRate;
     }
 
+    // monster
     public Monster getMonster() {
         return monster;
     }
 
     public void setMonster(Monster monster) {
         this.monster = monster;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
     }
 
     @Override
