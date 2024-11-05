@@ -13,13 +13,13 @@ import jakarta.persistence.GenerationType;
 public class Monster {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) 
-    private Long id;
+    private Long monsterId;
     private String monsterName;
     private String monsterExamine;
     private int combatLevel;
 
     @OneToMany(mappedBy = "monster", cascade = CascadeType.ALL)
-    private List<DropTable> dropTable;
+    private List<DropItem> dropItem;
 
     public Monster() {
     }
@@ -31,13 +31,13 @@ public class Monster {
         this.combatLevel = combatLevel;
     }
 
-    // id
+    // monsterId
     public Long getId() {
-        return id;
+        return monsterId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long monsterId) {
+        this.monsterId = monsterId;
     }
 
     // name
@@ -67,17 +67,21 @@ public class Monster {
         this.combatLevel = combatLevel;
     }
 
-    // drop table
-    public List<DropTable> getDropTable() {
-        return dropTable;
+    // drop item
+    public List<DropItem> getDropItem() {
+        return dropItem;
     }
 
-    public void setDropTable(List<DropTable> dropTable) {
-        this.dropTable = dropTable;
+
+    public void setDropItem(List<DropItem> dropItem) {
+        this.dropItem = dropItem;
+        for (DropItem item : dropItem) {
+            item.setMonster(this); // Set the reverse relationship
+        }
     }
 
     @Override
     public String toString() {
-        return "Monster [id=" + id + ", monsterName=" + monsterName + ", monsterExamine=" + monsterExamine + ", combatLevel=" + combatLevel + "]";
+        return "Monster [monsterId=" + monsterId + ", monsterName=" + monsterName + ", monsterExamine=" + monsterExamine + ", combatLevel=" + combatLevel + "]";
     }
 }

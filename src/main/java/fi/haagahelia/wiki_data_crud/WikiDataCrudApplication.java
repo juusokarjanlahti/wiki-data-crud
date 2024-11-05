@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fi.haagahelia.wiki_data_crud.domain.DropTable;
-import fi.haagahelia.wiki_data_crud.domain.DropTableRepository;
+import fi.haagahelia.wiki_data_crud.domain.DropItem;
+import fi.haagahelia.wiki_data_crud.domain.DropItemRepository;
 import fi.haagahelia.wiki_data_crud.domain.Monster;
 import fi.haagahelia.wiki_data_crud.domain.MonsterRepository;
 
@@ -21,7 +21,7 @@ public class WikiDataCrudApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(MonsterRepository monsterRepository, DropTableRepository dropTableRepository) {
+    public CommandLineRunner demo(MonsterRepository monsterRepository, DropItemRepository dropTableRepository) {
         return (args) -> {
             log.info("save a couple of monsters");
             Monster chicken = new Monster("Chicken", "Bwak", 3);
@@ -30,10 +30,10 @@ public class WikiDataCrudApplication {
             monsterRepository.save(cow);
 
             log.info("save a couple of drop tables");
-            DropTable chickenDropTable = new DropTable("Feathers", 1, 0.5);
-            DropTable cowDropTable = new DropTable("Cowhide", 1, 0.5);
-            dropTableRepository.save(chickenDropTable);
-            dropTableRepository.save(cowDropTable);
+            DropItem chickenDropItem = new DropItem("Feather", 1, 0.5, chicken);
+            DropItem cowDropItem = new DropItem("Cowhide", 1, 0.5, cow);
+            dropTableRepository.save(chickenDropItem);
+            dropTableRepository.save(cowDropItem);
 
             log.info("fetch all monsters");
             for (Monster monster : monsterRepository.findAll()) {

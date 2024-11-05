@@ -41,19 +41,19 @@ public class MonsterController {
     return "addmonster";
     }
 
-    // viewMonster(Long id, Model model)
-    @GetMapping(value = "/monster/{id}")
-    public String viewMonster(@PathVariable("id") Long id, Model model) {
-        Optional<Monster> monster = monsterRepository.findById(id);
+    // viewMonster(Long monsterId, Model model)
+    @GetMapping(value = "/monster/{monsterId}")
+    public String viewMonster(@PathVariable("monsterId") Long monsterId, Model model) {
+        Optional<Monster> monster = monsterRepository.findById(monsterId);
         model.addAttribute("monster", monster.get());
         return "monster";
     }   
 
 
-    // showEditMonsterForm(Long id, Model model)
-    @GetMapping(value = "/edit/{id}")
-    public String showEditMonsterForm(@PathVariable("id") Long id, Model model) {
-    Optional<Monster> monster = monsterRepository.findById(id);
+    // showEditMonsterForm(Long monsterId, Model model)
+    @GetMapping(value = "/edit/{monsterId}")
+    public String showEditMonsterForm(@PathVariable("monsterId") Long monsterId, Model model) {
+    Optional<Monster> monster = monsterRepository.findById(monsterId);
     model.addAttribute("monster", monster.get());
     return "editmonster";
     }
@@ -66,10 +66,10 @@ public class MonsterController {
 }
 
 
-    // deleteMonster(Long id)
-    @GetMapping(value = "/delete/{id}")
-    public String deleteMonster(@PathVariable("id") Long id) {
-        monsterRepository.deleteById(id);
+    // deleteMonster(Long monsterId)
+    @GetMapping(value = "/delete/{monsterId}")
+    public String deleteMonster(@PathVariable("monsterId") Long monsterId) {
+        monsterRepository.deleteById(monsterId);
         return "redirect:/monsterlist";
     }
 }

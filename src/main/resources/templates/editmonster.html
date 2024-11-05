@@ -5,8 +5,9 @@
 </head>
 <body>
     <h1>Edit Monster</h1>
+    <a href="/monsterlist">Back to Monster List</a>
     <form th:action="@{/update}" th:object="${monster}" method="post">
-        <input type="hidden" th:field="*{id}" class="form-control" />
+        <input type="hidden" th:field="*{monsterId}" class="form-control" />
         <label>Name:</label>
         <input type="text" th:field="*{monsterName}" /><br>
         
@@ -18,6 +19,5 @@
         
         <button type="submit">Save Changes</button>
     </form>
-    <a href="/monsterlist">Back to Monster List</a>
 </body>
 </html>

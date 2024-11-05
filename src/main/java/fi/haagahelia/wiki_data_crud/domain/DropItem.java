@@ -8,35 +8,34 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class DropTable { // rename DropTable to DropItem
+public class DropItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long drop_table_id;
+    private Long dropId;
     private String itemName;
     private int quantity;
     private double dropRate;
 
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @JoinColumn(name = "monsterId", referencedColumnName = "monsterId")
     private Monster monster;
 
-    public DropTable() {
-    }
+    public DropItem() {}
 
-    public DropTable(String itemName, int quantity, double dropRate) {
-        super();
+    public DropItem(String itemName, int quantity, double dropRate, Monster monster) {
         this.itemName = itemName;
         this.quantity = quantity;
         this.dropRate = dropRate;
+        this.monster = monster;
     }
 
-    // id
-    public Long getDrop_table_id() {
-        return drop_table_id;
+    // monsterId
+    public Long getDropId() {
+        return dropId;
     }
 
-    public void setDrop_table_id(Long drop_table_id) {
-        this.drop_table_id = drop_table_id;
+    public void setDropId(Long dropId) {
+        this.dropId = dropId;
     }
 
     // name
@@ -77,6 +76,7 @@ public class DropTable { // rename DropTable to DropItem
 
     @Override
     public String toString() {
-        return "DropTable [drop_table_id=" + drop_table_id + ", itemName=" + itemName + ", quantity=" + quantity + ", dropRate=" + dropRate + "]";
+        return "DropItem [dropId=" + dropId + ", itemName=" + itemName + 
+               ", quantity=" + quantity + ", dropRate=" + dropRate + "]";
     }
 }
