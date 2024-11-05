@@ -23,7 +23,7 @@
                 <td th:text="${dropItem.quantity}">Quantity</td>
                 <td th:text="${dropItem.dropRate}">Drop Rate</td>
                 <td>
-                    <a th:href="@{'/dropitems/' + ${dropItem.dropId}}">View</a>
+                    <a th:href="@{'/dropitems/' + ${dropItem.dropId}}">Details</a>
                     <a th:href="@{'/dropitems/edit/' + ${dropItem.dropId}}">Edit</a>
                     <a th:href="@{'/dropitems/delete/' + ${dropItem.dropId}}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
                 </td>
