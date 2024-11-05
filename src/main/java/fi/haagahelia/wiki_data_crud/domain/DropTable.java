@@ -8,7 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class DropTable {
+public class DropTable { // rename DropTable to DropItem
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long drop_table_id;
@@ -17,7 +17,7 @@ public class DropTable {
     private double dropRate;
 
     @ManyToOne
-    @JoinColumn(name = "monster_id", referencedColumnName = "monster_id")
+    @JoinColumn(name = "id", referencedColumnName = "id")
     private Monster monster;
 
     public DropTable() {

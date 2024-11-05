@@ -13,9 +13,9 @@ import jakarta.persistence.GenerationType;
 public class Monster {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) 
-    private Long monster_id;
-    private String monster_name;
-    private String monster_examine;
+    private Long id;
+    private String monsterName;
+    private String monsterExamine;
     private int combatLevel;
 
     @OneToMany(mappedBy = "monster", cascade = CascadeType.ALL)
@@ -24,38 +24,38 @@ public class Monster {
     public Monster() {
     }
 
-    public Monster(String monster_name, String monster_examine, int combatLevel) {
+    public Monster(String monsterName, String monsterExamine, int combatLevel) {
         super();
-        this.monster_name = monster_name;
-        this.monster_examine = monster_examine;
+        this.monsterName = monsterName;
+        this.monsterExamine = monsterExamine;
         this.combatLevel = combatLevel;
     }
 
     // id
-    public Long getMonster_id() {
-        return monster_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setMonster_id(Long monster_id) {
-        this.monster_id = monster_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     // name
-    public String getMonster_name() {
-        return monster_name;
+    public String getMonsterName() {
+        return monsterName;
     }
 
-    public void setMonster_name(String monster_name) {
-        this.monster_name = monster_name;
+    public void setMonsterName(String monsterName) {
+        this.monsterName = monsterName;
     }
 
     // examine
-    public String getMonster_examine() {
-        return monster_examine;
+    public String getMonsterExamine() {
+        return monsterExamine;
     }
 
-    public void setMonster_examine(String monster_examine) {
-        this.monster_examine = monster_examine;
+    public void setMonsterExamine(String monsterExamine) {
+        this.monsterExamine = monsterExamine;
     }
 
     // combat level
@@ -78,7 +78,6 @@ public class Monster {
 
     @Override
     public String toString() {
-        return "Monster [combatLevel=" + combatLevel + ", monster_examine=" + monster_examine + ", monster_id="
-                + monster_id + ", monster_name=" + monster_name + "]";
+        return "Monster [id=" + id + ", monsterName=" + monsterName + ", monsterExamine=" + monsterExamine + ", combatLevel=" + combatLevel + "]";
     }
 }

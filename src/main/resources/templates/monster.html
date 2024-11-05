@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Monster Details</title>
+</head>
+<body>
+    <h1 th:text="${monster.monsterName}">Monster Name</h1>
+    <p><strong>Examine:</strong> <span th:text="${monster.monsterExamine}">Examine Info</span></p>
+    <p><strong>Combat Level:</strong> <span th:text="${monster.combatLevel}">Combat Level Info</span></p>
+    <a href="/monsterlist">Back to Monster List</a>
+</body>
+</html>

@@ -18,10 +18,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="monster : ${monsters}">
-                    <td th:text="${monster.name}">Name</td>
-                    <td th:text="${monster.examine}">Examine</td>
-                    <td th:text="${monster.combatLevel}">Combat Level</td>
+                    <tr th:each="monster : ${monsterlist}">
+                        <td th:text="${monster.monsterName}">Monster Name</td>
+                        <td th:text="${monster.combatLevel}">Combat Level</td>
+                        <td th:text="${monster.combatLevel}">Combat Level</td>
+                        <td><a th:href="@{'/edit/' + ${monster.id}}">Edit</a></td>
+                        <td><a th:href="@{'/delete/' + ${monster.id}}" onclick="return confirm('Are you sure you want to delete this monster?');">Delete</a></td>
+                    </tr>
                 </tr>
                 </tbody>
             </table>

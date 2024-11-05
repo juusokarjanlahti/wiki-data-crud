@@ -3,18 +3,13 @@ package fi.haagahelia.wiki_data_crud.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.PostMapping;
 import java.util.Optional;
 
-import fi.haagahelia.wiki_data_crud.domain.DropTableRepository;
 import fi.haagahelia.wiki_data_crud.domain.Monster;
 import fi.haagahelia.wiki_data_crud.domain.MonsterRepository;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 
 @Controller
 public class MonsterController {
@@ -22,48 +17,59 @@ public class MonsterController {
     @Autowired
     private MonsterRepository monsterRepository;
 
-    @Autowired
-    private DropTableRepository dropTableRepository;
-
-    @RequestMapping(value = "/monsterlist")
-    public String list(Model model) {
-        model.addAttribute("monsters", monsterRepository.findAll());
-        return "monsters";
+    // listAllMonsters(Model model)
+    // fetch all monsters and return the view for display
+    @GetMapping(value = "/monsterlist")
+    public String listAllMonsters(Model model) {
+    model.addAttribute("monsterlist", monsterRepository.findAll());
+    return "monsterlist";
     }
 
-    @RequestMapping(value = "/monsters", method=RequestMethod.GET)
-    public @ResponseBody Optional<Monster> findMonsterRest(@RequestParam("id") Long monster_id) {	
-        return monsterRepository.findById(monster_id);
-    }
-    
-
-    @RequestMapping(value = "/add")
-    public String add(Model model) {
-        model.addAttribute("monster", new Monster());
-        model.addAttribute("dropTable", dropTableRepository.findAll());
-        return "addmonster";
-    }
-
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    // save(Monster monster)
+    // save monster to repository
+    @PostMapping(value = "/save")
     public String save(Monster monster) {
         monsterRepository.save(monster);
-        return "redirect:monsters";
+        return "redirect:monsterlist";
     }
 
-    @RequestMapping(value = "/delete/{monster_id}", method = RequestMethod.GET)
-    public String deleteMonster(@PathVariable("monster_id") Long monster_id, Model model) {
-        monsterRepository.deleteById(monster_id);
-        return "redirect:../monsters";
+    // showAddMonsterForm(Model model)
+    // return the form for adding a new monster
+    @GetMapping(value = "/addmonster")
+    public String showAddMonsterForm(Model model) {
+    model.addAttribute("monster", new Monster());
+    return "addmonster";
     }
 
-    @RequestMapping("/monsters/{monster_id}")
-    public String view(@PathVariable Long monster_id, Model model) {
-        Optional<Monster> monster = monsterRepository.findById(monster_id);
-        if (monster.isPresent()) {
-            model.addAttribute("monster", monster.get());
-            return "monster";
-        } else {
-            return "monster-not-found";
-        }
+    // viewMonster(Long id, Model model)
+    @GetMapping(value = "/monster/{id}")
+    public String viewMonster(@PathVariable("id") Long id, Model model) {
+        Optional<Monster> monster = monsterRepository.findById(id);
+        model.addAttribute("monster", monster.get());
+        return "monster";
+    }   
+
+
+    // showEditMonsterForm(Long id, Model model)
+    @GetMapping(value = "/edit/{id}")
+    public String showEditMonsterForm(@PathVariable("id") Long id, Model model) {
+    Optional<Monster> monster = monsterRepository.findById(id);
+    model.addAttribute("monster", monster.get());
+    return "editmonster";
+    }
+
+    // updateMonster(Monster monster)
+    @PostMapping(value = "/update")
+    public String updateMonster(Monster monster) {
+        monsterRepository.save(monster);
+    return "redirect:/monsterlist";
+}
+
+
+    // deleteMonster(Long id)
+    @GetMapping(value = "/delete/{id}")
+    public String deleteMonster(@PathVariable("id") Long id) {
+        monsterRepository.deleteById(id);
+        return "redirect:/monsterlist";
     }
 }
