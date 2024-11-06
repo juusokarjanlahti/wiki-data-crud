@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Edit Monster</title>
+    <title>EditMonsters Drop Item</title>
 </head>
 <body>
-    <h1>Edit Monster</h1>
+    <h1>Edit Monsters Drop Item</h1>
     <a href="/monsterlist">Back to Monster List</a>
     <form th:action="@{/dropitems/edit/{id}(id=${dropItem.dropId})}" method="post">
         <input type="hidden" th:value="${dropItem.dropId}" name="dropId">

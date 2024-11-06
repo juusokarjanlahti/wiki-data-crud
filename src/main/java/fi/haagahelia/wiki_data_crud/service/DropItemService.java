@@ -1,4 +1,4 @@
-package fi.haagahelia.wiki_data_crud.web;
+package fi.haagahelia.wiki_data_crud.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -6,7 +6,7 @@
 <body>
     <h1>Add New Drop Item</h1>
     
-    <form th:action="@{/dropitems/save}" th:object="${dropItem}" method="post">
+    <form th:action="@{/dropitems/save}" th:object="${dropItem}" method="POST">
         <label for="itemName">Item Name:</label>
         <input type="text" id="itemName" th:field="*{itemName}" required />
 
