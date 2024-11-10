@@ -14,33 +14,42 @@ public class Monster {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) 
     private Long monsterId;
+
     private String monsterName;
     private String monsterExamine;
     private int combatLevel;
 
-    @OneToMany(mappedBy = "monster", cascade = CascadeType.ALL)
-    private List<DropItem> dropItem;
+    @OneToMany(mappedBy = "monster", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DropTable> dropTables;
+
+    // Constructors
 
     public Monster() {
     }
 
     public Monster(String monsterName, String monsterExamine, int combatLevel) {
-        super();
         this.monsterName = monsterName;
         this.monsterExamine = monsterExamine;
         this.combatLevel = combatLevel;
     }
 
-    // monsterId
-    public Long getId() {
+    public Monster(String monsterName, String monsterExamine, int combatLevel, List<DropTable> dropTables) {
+        this.monsterName = monsterName;
+        this.monsterExamine = monsterExamine;
+        this.combatLevel = combatLevel;
+        this.dropTables = dropTables;
+    }
+
+    // Getters and setters
+
+    public Long getMonsterId() {
         return monsterId;
     }
 
-    public void setId(Long monsterId) {
+    public void setMonsterId(Long monsterId) {
         this.monsterId = monsterId;
     }
 
-    // name
     public String getMonsterName() {
         return monsterName;
     }
@@ -49,7 +58,6 @@ public class Monster {
         this.monsterName = monsterName;
     }
 
-    // examine
     public String getMonsterExamine() {
         return monsterExamine;
     }
@@ -58,7 +66,6 @@ public class Monster {
         this.monsterExamine = monsterExamine;
     }
 
-    // combat level
     public int getCombatLevel() {
         return combatLevel;
     }
@@ -67,21 +74,24 @@ public class Monster {
         this.combatLevel = combatLevel;
     }
 
-    // drop item
-    public List<DropItem> getDropItem() {
-        return dropItem;
+    public void addDropTable(DropTable dropTable) {
+        this.dropTables.add(dropTable);
+        dropTable.setMonster(this);
     }
 
-
-    public void setDropItem(List<DropItem> dropItem) {
-        this.dropItem = dropItem;
-        for (DropItem item : dropItem) {
-            item.setMonster(this); // Set the reverse relationship
-        }
+    public List<DropTable> getDropTables() {
+        return dropTables;
     }
+
+    public void setDropTables(List<DropTable> dropTables) {
+        this.dropTables = dropTables;
+    }
+
+    // toString
 
     @Override
     public String toString() {
-        return "Monster [monsterId=" + monsterId + ", monsterName=" + monsterName + ", monsterExamine=" + monsterExamine + ", combatLevel=" + combatLevel + "]";
+        return "Monster [monsterId=" + monsterId + ", monsterName=" + monsterName + ", monsterExamine=" + monsterExamine
+                + ", combatLevel=" + combatLevel + "]";
     }
 }

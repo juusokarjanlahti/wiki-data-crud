@@ -1,5 +1,7 @@
 package fi.haagahelia.wiki_data_crud.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,36 +11,56 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class DropItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long dropId;
+    private Long dropItemId;
+
     private String itemName;
     private int quantity;
     private double dropRate;
 
     @ManyToOne
-    @JoinColumn(name = "monsterId", referencedColumnName = "monsterId")
-    private Monster monster;
+    @JoinColumn(name = "dropTableId")
+    @JsonIgnore
+    private DropTable dropTable;
 
-    public DropItem() {}
+    // Constructors
 
-    public DropItem(String itemName, int quantity, double dropRate, Monster monster) {
+    public DropItem() {
+    }
+
+    public DropItem(String itemName, int quantity, double dropRate) {
         this.itemName = itemName;
         this.quantity = quantity;
         this.dropRate = dropRate;
-        this.monster = monster;
     }
 
-    // monsterId
-    public Long getDropId() {
-        return dropId;
+    public DropItem(String itemName, int quantity, double dropRate, DropTable dropTable) {
+        this.itemName = itemName;
+        this.quantity = quantity;
+        this.dropRate = dropRate;
+        this.dropTable = dropTable;
     }
 
-    public void setDropId(Long dropId) {
-        this.dropId = dropId;
+    public DropItem(Long dropItemId, String itemName, int quantity, double dropRate, DropTable dropTable) {
+        this.dropItemId = dropItemId;
+        this.itemName = itemName;
+        this.quantity = quantity;
+        this.dropRate = dropRate;
+        this.dropTable = dropTable;
     }
 
-    // name
+    // Getters and setters
+
+    public Long getDropItemId() {
+        return dropItemId;
+    }
+
+    public void setDropItemId(Long dropItemId) {
+        this.dropItemId = dropItemId;
+    }
+
     public String getItemName() {
         return itemName;
     }
@@ -47,7 +69,6 @@ public class DropItem {
         this.itemName = itemName;
     }
 
-    // quantity
     public int getQuantity() {
         return quantity;
     }
@@ -56,7 +77,6 @@ public class DropItem {
         this.quantity = quantity;
     }
 
-    // drop rate
     public double getDropRate() {
         return dropRate;
     }
@@ -65,18 +85,19 @@ public class DropItem {
         this.dropRate = dropRate;
     }
 
-    // monster
-    public Monster getMonster() {
-        return monster;
+    public DropTable getDropTable() {
+        return dropTable;
     }
 
-    public void setMonster(Monster monster) {
-        this.monster = monster;
+    public void setDropTable(DropTable dropTable) {
+        this.dropTable = dropTable;
     }
+
+    // toString
 
     @Override
     public String toString() {
-        return "DropItem [dropId=" + dropId + ", itemName=" + itemName + 
-               ", quantity=" + quantity + ", dropRate=" + dropRate + "]";
+        return "DropItem [dropItemId=" + dropItemId + ", dropRate=" + dropRate + ", itemName=" + itemName + ", quantity="
+                + quantity + "]";
     }
 }
