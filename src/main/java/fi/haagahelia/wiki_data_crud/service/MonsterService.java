@@ -19,22 +19,23 @@ public class MonsterService {
         return monsterRepository.findAll();
     }
 
-    public Optional<Monster> getMonsterById(Long id) {
-        return monsterRepository.findById(id);
+    public Monster getMonsterById(Long id) {
+        Optional<Monster> monster = monsterRepository.findById(id);
+        return monster.orElse(null);
     }
 
     public Monster createMonster(Monster monster) {
         return monsterRepository.save(monster);
     }
 
-    public Optional<Monster> updateMonster(Long id, Monster monsterDetails) {
+    public Monster updateMonster(Long id, Monster monsterDetails) {
         return monsterRepository.findById(id).map(monster -> {
             monster.setMonsterName(monsterDetails.getMonsterName());
             monster.setMonsterExamine(monsterDetails.getMonsterExamine());
             monster.setCombatLevel(monsterDetails.getCombatLevel());
             monster.setDropTables(monsterDetails.getDropTables());
             return monsterRepository.save(monster);
-        });
+        }).orElse(null);
     }
 
     public boolean deleteMonster(Long id) {

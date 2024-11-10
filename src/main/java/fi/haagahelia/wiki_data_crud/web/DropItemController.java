@@ -29,7 +29,7 @@ public class DropItemController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DropItem> getDropItemById(@PathVariable Long id) {
-        Optional<DropItem> dropItemOptional = dropItemService.getDropItemById(id);
+        Optional<DropItem> dropItemOptional = Optional.ofNullable(dropItemService.getDropItemById(id));
         return dropItemOptional.map(dropItem -> new ResponseEntity<>(dropItem, HttpStatus.OK))
                                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -46,9 +46,18 @@ public class DropItemController {
 
     @PutMapping("/{id}")
     public ResponseEntity<DropItem> updateDropItem(@PathVariable Long id, @RequestBody DropItem dropItemDetails) {
-        Optional<DropItem> updatedDropItem = dropItemService.updateDropItem(id, dropItemDetails);
-        return updatedDropItem.map(dropItem -> new ResponseEntity<>(dropItem, HttpStatus.OK))
-                              .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Optional<DropItem> dropItemOptional = Optional.ofNullable(dropItemService.getDropItemById(id));
+        if (dropItemOptional.isPresent()) {
+            DropItem existingDropItem = dropItemOptional.get();
+            existingDropItem.setItemName(dropItemDetails.getItemName());
+            existingDropItem.setQuantity(dropItemDetails.getQuantity());
+            existingDropItem.setDropRate(dropItemDetails.getDropRate());
+            existingDropItem.setDropTable(dropItemDetails.getDropTable());
+            DropItem updatedDropItem = dropItemService.updateDropItem(id, existingDropItem);
+            return new ResponseEntity<>(updatedDropItem, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")

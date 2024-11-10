@@ -46,9 +46,16 @@ public class DropTableController {
 
     @PutMapping("/{id}")
     public ResponseEntity<DropTable> updateDropTable(@PathVariable Long id, @RequestBody DropTable dropTableDetails) {
-        Optional<DropTable> updatedDropTable = dropTableService.updateDropTable(id, dropTableDetails);
-        return updatedDropTable.map(dropTable -> new ResponseEntity<>(dropTable, HttpStatus.OK))
-                               .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Optional<DropTable> dropTableOptional = Optional.ofNullable(dropTableService.getDropTableById(id));
+        if (dropTableOptional.isPresent()) {
+            DropTable existingDropTable = dropTableOptional.get();
+            existingDropTable.setMonster(dropTableDetails.getMonster());
+            existingDropTable.setItems(dropTableDetails.getItems());
+            DropTable updatedDropTable = dropTableService.updateDropTable(id, existingDropTable);
+            return new ResponseEntity<>(updatedDropTable, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
