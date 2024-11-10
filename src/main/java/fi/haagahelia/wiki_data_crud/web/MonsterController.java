@@ -1,75 +1,87 @@
 package fi.haagahelia.wiki_data_crud.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import fi.haagahelia.wiki_data_crud.domain.Monster;
-import fi.haagahelia.wiki_data_crud.domain.MonsterRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import fi.haagahelia.wiki_data_crud.domain.Monster;
+import fi.haagahelia.wiki_data_crud.service.MonsterService;
+
+@RestController
+@RequestMapping("/monsters")
 public class MonsterController {
 
     @Autowired
-    private MonsterRepository monsterRepository;
+    private MonsterService monsterService;
 
-    // listAllMonsters(Model model)
-    // fetch all monsters and return the view for display
-    @GetMapping(value = "/monsterlist")
-    public String listAllMonsters(Model model) {
-    model.addAttribute("monsterlist", monsterRepository.findAll());
-    return "monsterlist";
+    @GetMapping
+    public ResponseEntity<List<Monster>> getAllMonsters() {
+        try {
+            List<Monster> monsters = new ArrayList<>();
+            monsterService.getAllMonsters().forEach(monsters::add);
+
+            if (monsters.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(monsters, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    // save(Monster monster)
-    // save monster to repository
-    @PostMapping(value = "/save")
-    public String save(Monster monster) {
-        monsterRepository.save(monster);
-        return "redirect:monsterlist";
+    @GetMapping("/{id}")
+    public ResponseEntity<Monster> getMonsterById(@PathVariable("id") Long id) {
+        Optional<Monster> monsterOptional = Optional.ofNullable(monsterService.getMonsterById(id));
+
+        if (monsterOptional.isPresent()) {
+            return new ResponseEntity<>(monsterOptional.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    // showAddMonsterForm(Model model)
-    // return the form for adding a new monster
-    @GetMapping(value = "/addmonster")
-    public String showAddMonsterForm(Model model) {
-    model.addAttribute("monster", new Monster());
-    return "addmonster";
+    @PostMapping
+    public ResponseEntity<Monster> createMonster(@RequestBody Monster monster) {
+        try {
+            Monster createdMonster = monsterService.createMonster(monster);
+            return new ResponseEntity<>(createdMonster, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
     }
 
-    // viewMonster(Long monsterId, Model model)
-    @GetMapping(value = "/monster/{monsterId}")
-    public String viewMonster(@PathVariable("monsterId") Long monsterId, Model model) {
-        Optional<Monster> monster = monsterRepository.findById(monsterId);
-        model.addAttribute("monster", monster.get());
-        return "monster";
-    }   
-
-
-    // showEditMonsterForm(Long monsterId, Model model)
-    @GetMapping(value = "/edit/{monsterId}")
-    public String showEditMonsterForm(@PathVariable("monsterId") Long monsterId, Model model) {
-    Optional<Monster> monster = monsterRepository.findById(monsterId);
-    model.addAttribute("monster", monster.get());
-    return "editmonster";
+    @PutMapping("/{id}")
+    public ResponseEntity<Monster> updateMonster(@PathVariable("id") Long id, @RequestBody Monster monsterDetails) {
+        Optional<Monster> monsterOptional = Optional.ofNullable(monsterService.getMonsterById(id));
+        if (monsterOptional.isPresent()) {
+            Monster existingMonster = monsterOptional.get();
+            existingMonster.setMonsterName(monsterDetails.getMonsterName());
+            existingMonster.setMonsterExamine(monsterDetails.getMonsterExamine());
+            existingMonster.setCombatLevel(monsterDetails.getCombatLevel());
+            existingMonster.setDropTables(monsterDetails.getDropTables());
+            return new ResponseEntity<>(monsterService.updateMonster(id, existingMonster), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    // updateMonster(Monster monster)
-    @PostMapping(value = "/update")
-    public String updateMonster(Monster monster) {
-        monsterRepository.save(monster);
-    return "redirect:/monsterlist";
-}
-
-
-    // deleteMonster(Long monsterId)
-    @GetMapping(value = "/delete/{monsterId}")
-    public String deleteMonster(@PathVariable("monsterId") Long monsterId) {
-        monsterRepository.deleteById(monsterId);
-        return "redirect:/monsterlist";
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteMonster(@PathVariable("id") Long id) {
+        try {
+            boolean isDeleted = monsterService.deleteMonster(id);
+            if (isDeleted) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
     }
 }

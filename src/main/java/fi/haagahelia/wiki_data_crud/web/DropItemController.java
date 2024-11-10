@@ -1,68 +1,87 @@
 package fi.haagahelia.wiki_data_crud.web;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import fi.haagahelia.wiki_data_crud.domain.DropItem;
 import fi.haagahelia.wiki_data_crud.service.DropItemService;
 
-@Controller
-@RequestMapping("/dropitems")
+@RestController
+@RequestMapping("/dropItems")
 public class DropItemController {
 
     @Autowired
     private DropItemService dropItemService;
 
     @GetMapping
-    public String listDropItems(Model model) {
-        model.addAttribute("dropItems", dropItemService.getAllDropItems());
-        return "dropitemlist"; // The Thymeleaf template to list drop items
+    public ResponseEntity<List<DropItem>> getAllDropItems() {
+        try {
+            List<DropItem> dropItems = new ArrayList<>();
+            dropItemService.getAllDropItems().forEach(dropItems::add);
+
+            if (dropItems.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(dropItems, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
-    public String viewDropItem(@PathVariable Long id, Model model) {
-        dropItemService.getDropItemById(id).ifPresent(dropItem -> model.addAttribute("dropItem", dropItem));
-        return "dropitem"; // Template to view details of a single drop item
+    public ResponseEntity<DropItem> getDropItemById(@PathVariable("id") Long id) {
+        Optional<DropItem> dropItemOptional = Optional.ofNullable(dropItemService.getDropItemById(id));
+
+        if (dropItemOptional.isPresent()) {
+            return new ResponseEntity<>(dropItemOptional.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PostMapping("/save")
-    public String saveDropItem(DropItem dropItem) {
-        dropItemService.saveDropItem(dropItem);
-        return "redirect:/dropitems";
+    @PostMapping
+    public ResponseEntity<DropItem> createDropItem(@RequestBody DropItem dropItem) {
+        try {
+            DropItem createdDropItem = dropItemService.createDropItem(dropItem);
+            return new ResponseEntity<>(createdDropItem, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteDropItem(@PathVariable Long id) {
-        dropItemService.deleteDropItem(id);
-        return "redirect:/dropitems";
+    @PutMapping("/{id}")
+    public ResponseEntity<DropItem> updateDropItem(@PathVariable("id") Long id, @RequestBody DropItem dropItemDetails) {
+        Optional<DropItem> dropItemOptional = Optional.ofNullable(dropItemService.getDropItemById(id));
+        if (dropItemOptional.isPresent()) {
+            DropItem existingDropItem = dropItemOptional.get();
+            existingDropItem.setItemName(dropItemDetails.getItemName());
+            existingDropItem.setQuantity(dropItemDetails.getQuantity());
+            existingDropItem.setDropRate(dropItemDetails.getDropRate());
+            existingDropItem.setDropTable(dropItemDetails.getDropTable());
+            return new ResponseEntity<>(dropItemService.updateDropItem(id, existingDropItem), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @GetMapping("/add")
-    public String showAddDropItemForm(Model model) {
-        model.addAttribute("dropItem", new DropItem());
-        return "adddropitem";
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteDropItem(@PathVariable("id") Long id) {
+        try {
+            boolean isDeleted = dropItemService.deleteDropItem(id);
+            if (isDeleted) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
     }
-    
-    @PostMapping("/add")
-    public String addDropItem(DropItem dropItem) {
-        dropItemService.saveDropItem(dropItem);
-        return "redirect:/dropitems";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String showEditDropItemForm(@PathVariable Long id, Model model) {
-        dropItemService.getDropItemById(id).ifPresent(dropItem -> model.addAttribute("dropItem", dropItem));
-        return "editdropitem";
-}
-
-@PostMapping("/edit/{id}")
-    public String updateDropItem(@PathVariable Long id, DropItem dropItem) {
-        dropItem.setDropId(id);
-        dropItemService.saveDropItem(dropItem);
-        return "redirect:/dropitems";
-    }
-
-    
 }
