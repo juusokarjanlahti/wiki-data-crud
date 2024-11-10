@@ -1,6 +1,5 @@
 package fi.haagahelia.wiki_data_crud.web;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,29 +20,18 @@ public class DropTableController {
 
     @GetMapping
     public ResponseEntity<List<DropTable>> getAllDropTables() {
-        try {
-            List<DropTable> dropTables = new ArrayList<>();
-            dropTableService.getAllDropTables().forEach(dropTables::add);
-
-            if (dropTables.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(dropTables, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        List<DropTable> dropTables = dropTableService.getAllDropTables();
+        if (dropTables.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        return new ResponseEntity<>(dropTables, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DropTable> getDropTableById(@PathVariable("id") Long id) {
+    public ResponseEntity<DropTable> getDropTableById(@PathVariable Long id) {
         Optional<DropTable> dropTableOptional = Optional.ofNullable(dropTableService.getDropTableById(id));
-
-        if (dropTableOptional.isPresent()) {
-            return new ResponseEntity<>(dropTableOptional.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return dropTableOptional.map(dropTable -> new ResponseEntity<>(dropTable, HttpStatus.OK))
+                                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
@@ -57,29 +45,19 @@ public class DropTableController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DropTable> updateDropTable(@PathVariable("id") Long id, @RequestBody DropTable dropTableDetails) {
-        Optional<DropTable> dropTableOptional = Optional.ofNullable(dropTableService.getDropTableById(id));
-        if (dropTableOptional.isPresent()) {
-            DropTable existingDropTable = dropTableOptional.get();
-            existingDropTable.setMonster(dropTableDetails.getMonster());
-            existingDropTable.setItems(dropTableDetails.getItems());
-            return new ResponseEntity<>(dropTableService.updateDropTable(id, existingDropTable), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<DropTable> updateDropTable(@PathVariable Long id, @RequestBody DropTable dropTableDetails) {
+        Optional<DropTable> updatedDropTable = dropTableService.updateDropTable(id, dropTableDetails);
+        return updatedDropTable.map(dropTable -> new ResponseEntity<>(dropTable, HttpStatus.OK))
+                               .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteDropTable(@PathVariable("id") Long id) {
-        try {
-            boolean isDeleted = dropTableService.deleteDropTable(id);
-            if (isDeleted) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+    public ResponseEntity<HttpStatus> deleteDropTable(@PathVariable Long id) {
+        boolean isDeleted = dropTableService.deleteDropTable(id);
+        if (isDeleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }
