@@ -19,27 +19,22 @@ public class DropItemService {
         return dropItemRepository.findAll();
     }
 
-    public DropItem getDropItemById(Long id) {
-        Optional<DropItem> dropItem = dropItemRepository.findById(id);
-        return dropItem.orElse(null);
+    public Optional<DropItem> getDropItemById(Long id) {
+        return dropItemRepository.findById(id);
     }
 
     public DropItem createDropItem(DropItem dropItem) {
         return dropItemRepository.save(dropItem);
     }
 
-    public DropItem updateDropItem(Long id, DropItem dropItemDetails) {
-        Optional<DropItem> optionalDropItem = dropItemRepository.findById(id);
-        if (optionalDropItem.isPresent()) {
-            DropItem dropItem = optionalDropItem.get();
+    public Optional<DropItem> updateDropItem(Long id, DropItem dropItemDetails) {
+        return dropItemRepository.findById(id).map(dropItem -> {
             dropItem.setItemName(dropItemDetails.getItemName());
             dropItem.setQuantity(dropItemDetails.getQuantity());
             dropItem.setDropRate(dropItemDetails.getDropRate());
             dropItem.setDropTable(dropItemDetails.getDropTable());
             return dropItemRepository.save(dropItem);
-        } else {
-            return null;
-        }
+        });
     }
 
     public boolean deleteDropItem(Long id) {

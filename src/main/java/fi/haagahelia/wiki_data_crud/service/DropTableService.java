@@ -28,16 +28,12 @@ public class DropTableService {
         return dropTableRepository.save(dropTable);
     }
 
-    public DropTable updateDropTable(Long id, DropTable dropTableDetails) {
-        Optional<DropTable> optionalDropTable = dropTableRepository.findById(id);
-        if (optionalDropTable.isPresent()) {
-            DropTable dropTable = optionalDropTable.get();
+    public Optional<DropTable> updateDropTable(Long id, DropTable dropTableDetails) {
+        return dropTableRepository.findById(id).map(dropTable -> {
             dropTable.setMonster(dropTableDetails.getMonster());
             dropTable.setItems(dropTableDetails.getItems());
             return dropTableRepository.save(dropTable);
-        } else {
-            return null;
-        }
+        });
     }
 
     public boolean deleteDropTable(Long id) {

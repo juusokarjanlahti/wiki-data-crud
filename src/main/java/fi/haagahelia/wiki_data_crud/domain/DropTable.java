@@ -1,5 +1,6 @@
 package fi.haagahelia.wiki_data_crud.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,7 +25,7 @@ public class DropTable {
     @JsonIgnore
     private Monster monster;
 
-    @OneToMany(mappedBy = "dropTable", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dropTable", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DropItem> items;
 
     // Constructors
@@ -43,7 +44,10 @@ public class DropTable {
         this.items = items;
     }
 
-    
+    public DropTable(Monster monster) {
+    this.monster = monster;
+    this.items = new ArrayList<>();
+    }
 
     // Getters and setters
 
