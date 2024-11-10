@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Monster Details</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" th:href="@{/css/styles.css}" />
+	</head>
+	<body>
+		<h1>Monster Details</h1>
+		<div>
+			<h2>[[${monster.monsterName}]]</h2>
+			<p><strong>Examine:</strong> [[${monster.monsterExamine}]]</p>
+			<p><strong>Combat Level:</strong> [[${monster.combatLevel}]]</p>
+		</div>
+		<div>
+			<h3>Drop Tables</h3>
+			<ul>
+				<li th:each="dropTable : ${monster.dropTables}">
+					<p><strong>Drop Table ID:</strong> [[${dropTable.dropTableId}]]</p>
+					<ul>
+						<li th:each="dropItem : ${dropTable.items}">
+							<p><strong>Item Name:</strong> [[${dropItem.itemName}]]</p>
+							<p><strong>Quantity:</strong> [[${dropItem.quantity}]]</p>
+							<p><strong>Drop Rate:</strong> [[${dropItem.dropRate}]]</p>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<a th:href="@{/}">Back to Monster List</a>
+	</body>
+</html>
