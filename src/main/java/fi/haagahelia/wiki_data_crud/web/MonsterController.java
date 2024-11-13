@@ -4,72 +4,69 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.Optional;
 
 import fi.haagahelia.wiki_data_crud.domain.Monster;
-import fi.haagahelia.wiki_data_crud.domain.MonsterRepository;
+import fi.haagahelia.wiki_data_crud.service.MonsterService;
 
 @Controller
 public class MonsterController {
 
     @Autowired
-    private MonsterRepository monsterRepository;
+    private MonsterService monsterService;
 
-    // listAllMonsters(Model model)
-    // fetch all monsters and return the view for display
-    @GetMapping(value = "/monsterlist")
-    public String listAllMonsters(Model model) {
-    model.addAttribute("monsterlist", monsterRepository.findAll());
-    return "monsterlist";
+    // all monsters view
+    @GetMapping("/monsters")
+    public String monsters(Model model) {
+        model.addAttribute("monsters", monsterService.findAll());
+        return "monsters";
     }
 
-    // save(Monster monster)
-    // save monster to repository
-    @PostMapping(value = "/save")
-    public String save(Monster monster) {
-        monsterRepository.save(monster);
-        return "redirect:monsterlist";
+    // monster view by id
+    @GetMapping("/monster")
+    public String monster(@RequestParam Long Id, Model model) {
+        Optional<Monster> monster = monsterService.findById(Id);
+        if (monster.isPresent()) {
+            model.addAttribute("monster", monster.get());
+            return "monster";
+        } else {
+            return "redirect:/monsters";
+        }
     }
 
-    // showAddMonsterForm(Model model)
-    // return the form for adding a new monster
-    @GetMapping(value = "/addmonster")
-    public String showAddMonsterForm(Model model) {
-    model.addAttribute("monster", new Monster());
-    return "addmonster";
+    // add monster form
+    @GetMapping("/monsteradd")
+    public String newMonster(Model model) {
+        model.addAttribute("monster", new Monster());
+        return "monsteradd";
     }
 
-    // viewMonster(Long monsterId, Model model)
-    @GetMapping(value = "/monster/{monsterId}")
-    public String viewMonster(@PathVariable("monsterId") Long monsterId, Model model) {
-        Optional<Monster> monster = monsterRepository.findById(monsterId);
-        model.addAttribute("monster", monster.get());
-        return "monster";
-    }   
-
-
-    // showEditMonsterForm(Long monsterId, Model model)
-    @GetMapping(value = "/edit/{monsterId}")
-    public String showEditMonsterForm(@PathVariable("monsterId") Long monsterId, Model model) {
-    Optional<Monster> monster = monsterRepository.findById(monsterId);
-    model.addAttribute("monster", monster.get());
-    return "editmonster";
+    // edit monster form
+    @GetMapping("/monsteredit")
+    public String editMonster(@RequestParam Long id, Model model) {
+        Optional<Monster> monster = monsterService.findById(id);
+        if (monster.isPresent()) {
+            model.addAttribute("monster", monster.get());
+            return "monsteredit";
+        } else {
+            return "redirect:/monsters";
+        }
     }
 
-    // updateMonster(Monster monster)
-    @PostMapping(value = "/update")
-    public String updateMonster(Monster monster) {
-        monsterRepository.save(monster);
-    return "redirect:/monsterlist";
-}
+    // save monster
+    @PostMapping("/savemonster")
+    public String saveMonster(Monster monster) {
+        monsterService.save(monster);
+        return "redirect:/monsters";
+    }
 
-
-    // deleteMonster(Long monsterId)
-    @GetMapping(value = "/delete/{monsterId}")
-    public String deleteMonster(@PathVariable("monsterId") Long monsterId) {
-        monsterRepository.deleteById(monsterId);
-        return "redirect:/monsterlist";
+    // delete monster
+    @PostMapping("/deletemonster")
+    public String deleteMonster(@RequestParam Long id) {
+        monsterService.deleteById(id);
+        return "redirect:/monsters";
     }
 }
