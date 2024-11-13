@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Monster</title>
+</head>
+<body>
+    <h1>Edit Monster</h1>
+    <a href="/monsters">Back to Monster List</a>
+    <form th:action="@{/savemonster}" th:object="${monster}" method="post">
+        <input type="hidden" th:field="*{monsterId}" class="form-control" />
+        <input type="hidden" th:field="*{dropTable.dropTableId}" class="form-control" />
+        <label>Name:</label>
+        <input type="text" th:field="*{monsterName}" /><br>
+        
+        <label>Examine:</label>
+        <input type="text" th:field="*{monsterExamine}" /><br>
+        
+        <label>Combat Level:</label>
+        <input type="number" th:field="*{combatLevel}" /><br>
+        
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

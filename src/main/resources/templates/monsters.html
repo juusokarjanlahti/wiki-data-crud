@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Monsters List</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Monsters List</h1>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Examine</th>
+                    <th>Combat Level</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="monster : ${monsters}">
+                    <td th:text="${monster.monsterName}">Name</td>
+                    <td th:text="${monster.monsterExamine}">Examine</td>
+                    <td th:text="${monster.combatLevel}">Combat Level</td>
+                    <td>
+                        <a th:href="@{/monsteredit(id=${monster.monsterId})}" class="btn btn-primary">Edit</a>
+                        <a th:href="@{/droptable(id=${monster.monsterId})}" class="btn btn-info">View DropTable</a>
+                        <form th:action="@{/deletemonster(id=${monster.monsterId})}" method="post" style="display:inline;">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <a href="/monsteradd" class="btn btn-success">Add New Monster</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

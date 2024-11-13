@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Edit Monster</title>
+    <title>Add Monster</title>
 </head>
 <body>
-    <h1>Edit Monster</h1>
-    <a href="/monsterlist">Back to Monster List</a>
-    <form th:action="@{/update}" th:object="${monster}" method="post">
-        <input type="hidden" th:field="*{monsterId}" class="form-control" />
+    <h1>Add Monster</h1>
+    <a href="/monsters">Back to Monster List</a>
+    <form th:action="@{/savemonster}" th:object="${monster}" method="post">
         <label>Name:</label>
         <input type="text" th:field="*{monsterName}" /><br>
         
@@ -17,7 +16,7 @@
         <label>Combat Level:</label>
         <input type="number" th:field="*{combatLevel}" /><br>
         
-        <button type="submit">Save Changes</button>
+        <button type="submit">Add Monster</button>
     </form>
 </body>
 </html>
