@@ -17,16 +17,9 @@ public class Monster {
     private String monsterExamine;
     private int combatLevel;
 
-<<<<<<< HEAD
     @OneToOne
     @JoinColumn(name = "dropTableId")
     private DropTable dropTable;
-=======
-    @OneToMany(mappedBy = "monster", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DropTable> dropTables;
-
-    // Constructors
->>>>>>> 4df215c65635fb881339195ecd39f8d199b8a0f1
 
     // Constructors
     public Monster() {
@@ -38,19 +31,7 @@ public class Monster {
         this.combatLevel = combatLevel;
     }
 
-<<<<<<< HEAD
     // Getters and setters
-=======
-    public Monster(String monsterName, String monsterExamine, int combatLevel, List<DropTable> dropTables) {
-        this.monsterName = monsterName;
-        this.monsterExamine = monsterExamine;
-        this.combatLevel = combatLevel;
-        this.dropTables = dropTables;
-    }
-
-    // Getters and setters
-
->>>>>>> 4df215c65635fb881339195ecd39f8d199b8a0f1
     public Long getMonsterId() {
         return monsterId;
     }
@@ -83,33 +64,11 @@ public class Monster {
         this.combatLevel = combatLevel;
     }
 
-<<<<<<< HEAD
     public DropTable getDropTable() {
         return dropTable;
     }
 
     public void setDropTable(DropTable dropTable) {
         this.dropTable = dropTable;
-=======
-    public void addDropTable(DropTable dropTable) {
-        this.dropTables.add(dropTable);
-        dropTable.setMonster(this);
-    }
-
-    public List<DropTable> getDropTables() {
-        return dropTables;
-    }
-
-    public void setDropTables(List<DropTable> dropTables) {
-        this.dropTables = dropTables;
-    }
-
-    // toString
-
-    @Override
-    public String toString() {
-        return "Monster [monsterId=" + monsterId + ", monsterName=" + monsterName + ", monsterExamine=" + monsterExamine
-                + ", combatLevel=" + combatLevel + "]";
->>>>>>> 4df215c65635fb881339195ecd39f8d199b8a0f1
     }
 }
