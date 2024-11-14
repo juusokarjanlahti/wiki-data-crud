@@ -1,5 +1,6 @@
 package fi.haagahelia.wiki_data_crud.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +18,8 @@ public class Monster {
     private String monsterExamine;
     private int combatLevel;
 
-    @OneToOne
-    @JoinColumn(name = "dropTableId")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "dropTableId", referencedColumnName = "dropTableId")
     private DropTable dropTable;
 
     // Constructors

@@ -1,9 +1,13 @@
 package fi.haagahelia.wiki_data_crud.domain;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Item {
@@ -13,6 +17,9 @@ public class Item {
     private String itemName;
     private int itemValue;
     private boolean itemIsStackable;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DropEntry> dropEntries;
     
     // Constructors
     public Item() {

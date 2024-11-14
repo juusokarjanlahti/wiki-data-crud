@@ -17,10 +17,10 @@ public class DropTable {
     private Long dropTableId;
     private String dropTableName;
 
-    @OneToOne(mappedBy = "dropTable")
+    @OneToOne(mappedBy = "dropTable", cascade = CascadeType.ALL, orphanRemoval = true)
     private Monster monster;
 
-    @OneToMany(mappedBy = "dropTable", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dropTable", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DropEntry> dropEntries;
 
     // Constructors
