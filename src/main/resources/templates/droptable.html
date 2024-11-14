@@ -2,25 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Drop Table</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1 th:text="${droptable.dropTableName}">Drop Table Name</h1>
-    <a href="/monsters">Back to Monster List</a>
+<div class="container">
+    <h1 th:text="'Drop Table for ' + ${monster.monsterName}"></h1>
     <table class="table table-striped">
         <thead>
-        <tr>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Drop Rate</th>
-        </tr>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Drop Rate</th>
+            </tr>
         </thead>
         <tbody>
-        <tr th:each="entry : ${dropentries}">
-            <td th:text="${entry.item.name}">Item Name</td>
-            <td th:text="${entry.quantity}">Quantity</td>
-            <td th:text="${entry.dropRate}">Drop Rate</td>
-        </tr>
+            <tr th:each="entry : ${monster.dropTable.dropEntries}">
+                <td th:text="${entry.item.itemName}"></td>
+                <td th:text="${entry.quantity}"></td>
+                <td th:text="${entry.dropRate}"></td>
+            </tr>
         </tbody>
     </table>
+    <a href="/monsters" class="btn btn-secondary">Back to Monsters List</a>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
