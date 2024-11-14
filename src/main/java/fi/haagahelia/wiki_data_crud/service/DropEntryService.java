@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fi.haagahelia.wiki_data_crud.domain.DropEntry;
-import fi.haagahelia.wiki_data_crud.domain.DropEntryRepository;
+import fi.haagahelia.wiki_data_crud.repository.DropEntryRepository;
 
 @Service
 public class DropEntryService {

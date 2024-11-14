@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fi.haagahelia.wiki_data_crud.domain.Item;
-import fi.haagahelia.wiki_data_crud.domain.ItemRepository;
+import fi.haagahelia.wiki_data_crud.repository.ItemRepository;
 
 @Service
 public class ItemService {

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fi.haagahelia.wiki_data_crud.domain.Monster;
-import fi.haagahelia.wiki_data_crud.domain.MonsterRepository;
+import fi.haagahelia.wiki_data_crud.repository.MonsterRepository;
 
 import java.util.List;
 import java.util.Optional;

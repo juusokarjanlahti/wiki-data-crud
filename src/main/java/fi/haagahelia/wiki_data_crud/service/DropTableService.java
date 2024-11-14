@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fi.haagahelia.wiki_data_crud.domain.DropTable;
-import fi.haagahelia.wiki_data_crud.domain.DropTableRepository;
+import fi.haagahelia.wiki_data_crud.repository.DropTableRepository;
 
 import java.util.List;
 import java.util.Optional;
