@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -38,27 +39,22 @@ public class MonsterController {
     }
 
     // add monster form
-    @GetMapping("/monsteradd")
-    public String newMonster(Model model) {
-        model.addAttribute("monster", new Monster());
-        return "monsteradd";
+    @PostMapping("/monsteradd")
+    public String addMonster(Monster monster) {
+        monsterService.save(monster);
+        return "redirect:/monsters";
     }
 
     // edit monster form
-    @GetMapping("/monsteredit")
+    @PostMapping("/monsteredit")
     public String editMonster(@RequestParam Long id, Model model) {
-        Optional<Monster> monster = monsterService.findById(id);
-        if (monster.isPresent()) {
-            model.addAttribute("monster", monster.get());
-            return "monsteredit";
-        } else {
-            return "redirect:/monsters";
-        }
+        model.addAttribute("monster", monsterService.findById(id).orElse(new Monster()));
+    return "redirect:/monsters";
     }
 
     // save monster
     @PostMapping("/savemonster")
-    public String saveMonster(Monster monster) {
+    public String saveMonster(@ModelAttribute Monster monster) {
         monsterService.save(monster);
         return "redirect:/monsters";
     }
