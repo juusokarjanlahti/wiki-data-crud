@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
 
 import fi.haagahelia.wiki_data_crud.domain.Monster;
-import fi.haagahelia.wiki_data_crud.domain.MonsterRepository;
+import fi.haagahelia.wiki_data_crud.repository.DropEntryRepository;
+import fi.haagahelia.wiki_data_crud.repository.DropTableRepository;
+import fi.haagahelia.wiki_data_crud.repository.ItemRepository;
+import fi.haagahelia.wiki_data_crud.repository.MonsterRepository;
 import fi.haagahelia.wiki_data_crud.domain.DropTable;
-import fi.haagahelia.wiki_data_crud.domain.DropTableRepository;
 import fi.haagahelia.wiki_data_crud.domain.DropEntry;
-import fi.haagahelia.wiki_data_crud.domain.DropEntryRepository;
 import fi.haagahelia.wiki_data_crud.domain.Item;
-import fi.haagahelia.wiki_data_crud.domain.ItemRepository;
 
 @SpringBootApplication
 public class WikiDataCrudApplication {
