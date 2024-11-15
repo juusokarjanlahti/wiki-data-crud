@@ -1,14 +1,14 @@
 package fi.haagahelia.wiki_data_crud.domain;
 
-import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import java.util.List;
 
 @Entity
 public class DropTable {
@@ -20,7 +20,7 @@ public class DropTable {
     @OneToOne(mappedBy = "dropTable", cascade = CascadeType.ALL, orphanRemoval = true)
     private Monster monster;
 
-    @OneToMany(mappedBy = "dropTable", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "dropTable", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<DropEntry> dropEntries;
 
     // Constructors
@@ -30,6 +30,7 @@ public class DropTable {
     public DropTable(String dropTableName) {
         this.dropTableName = dropTableName;
     }
+
     // Getters and setters
     public Long getDropTableId() {
         return dropTableId;
@@ -56,7 +57,7 @@ public class DropTable {
     }
 
     public List<DropEntry> getDropEntries() {
-        return getDropEntries();
+        return dropEntries;
     }
 
     public void setDropEntries(List<DropEntry> dropEntries) {
@@ -70,6 +71,6 @@ public class DropTable {
 
     @Override
     public String toString() {
-        return "DropTable [dropTableId=" + dropTableId + ", dropTableName=" + dropTableName + "]";
+        return "DropTable [dropTableId=" + dropTableId + ", dropTableName=" + dropTableName + ", monster=" + monster + "]";
     }
 }

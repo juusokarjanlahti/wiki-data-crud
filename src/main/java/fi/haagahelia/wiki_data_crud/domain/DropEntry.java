@@ -1,5 +1,7 @@
 package fi.haagahelia.wiki_data_crud.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +17,7 @@ public class DropEntry {
     
     @ManyToOne
     @JoinColumn(name = "dropTableId")
+    @JsonIgnore
     private DropTable dropTable;
     
     @ManyToOne

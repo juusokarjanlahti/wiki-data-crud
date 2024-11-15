@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="container">
-    <h1 th:text="'Drop Table for ' + ${monster.monsterName}"></h1>
+    <h1 th:text="'Drop Table for ' + ${monsterName}"></h1>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="entry : ${monster.dropTable.dropEntries}">
+            <tr th:each="entry : ${dropEntries}">
                 <td th:text="${entry.item.itemName}"></td>
                 <td th:text="${entry.quantity}"></td>
                 <td th:text="${entry.dropRate}"></td>
