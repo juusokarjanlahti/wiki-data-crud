@@ -17,12 +17,6 @@ public class DropTableController {
     @Autowired
     private DropTableService dropTableService;
 
-    @GetMapping("/droptables")
-    public String listAllDropTables(Model model) {
-        model.addAttribute("droptables", dropTableService.findAll());
-        return "droptables";
-    }
-
     @GetMapping("/droptable")
     public String getDropTableById(@RequestParam Long id, Model model) {
         Optional<DropTable> dropTable = dropTableService.findById(id);
