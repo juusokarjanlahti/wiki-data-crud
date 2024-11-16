@@ -7,6 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Monster {
@@ -14,8 +17,15 @@ public class Monster {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long monsterId;
 
+    @NotBlank(message = "Monster name is required")
+    @Size(min = 2, max = 50, message = "Monster name must be between 2 and 50 characters")
     private String monsterName;
+
+    @NotBlank(message = "Monster examine is required")
+    @Size(min = 2, max = 255, message = "Monster examine must be between 2 and 255 characters")
     private String monsterExamine;
+
+    @Min(value = 1, message = "Combat level must be at least 1")
     private int combatLevel;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
