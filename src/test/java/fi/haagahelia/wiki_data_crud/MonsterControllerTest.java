@@ -3,10 +3,10 @@ package fi.haagahelia.wiki_data_crud;
 import fi.haagahelia.wiki_data_crud.web.MonsterController;
 import fi.haagahelia.wiki_data_crud.domain.Monster;
 import fi.haagahelia.wiki_data_crud.service.MonsterService;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -16,7 +16,6 @@ import java.util.Optional;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(MonsterController.class)
 public class MonsterControllerTest {
 
     @Autowired
@@ -24,6 +23,9 @@ public class MonsterControllerTest {
 
     @MockBean
     private MonsterService monsterService;
+
+    @MockBean
+    private MonsterController monsterController;
 
     @Test
     public void testListAllMonsters() throws Exception {
