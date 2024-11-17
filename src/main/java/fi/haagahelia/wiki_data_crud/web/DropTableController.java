@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import java.util.Optional;
 
 @Controller
 public class DropTableController {
@@ -19,13 +19,13 @@ public class DropTableController {
 
     @GetMapping("/droptable")
     public String getDropTableById(@RequestParam Long id, Model model) {
-        Optional<DropTable> dropTable = dropTableService.findById(id);
-        if (dropTable.isPresent()) {
-            model.addAttribute("droptable", dropTable.get());
-            model.addAttribute("monsterName", dropTable.get().getMonster().getMonsterName());
-            model.addAttribute("dropEntries", dropTable.get().getDropEntries());
+        try {
+            DropTable dropTable = dropTableService.findById(id);
+            model.addAttribute("droptable", dropTable);
+            model.addAttribute("monsterName", dropTable.getMonster().getMonsterName());
+            model.addAttribute("dropEntries", dropTable.getDropEntries());
             return "droptable";
-        } else {
+        } catch (EntityNotFoundException e) {
             return "redirect:/droptables";
         }
     }
@@ -47,11 +47,11 @@ public class DropTableController {
 
     @GetMapping("/droptableedit")
     public String editDropTable(@RequestParam Long id, Model model) {
-        Optional<DropTable> dropTable = dropTableService.findById(id);
-        if (dropTable.isPresent()) {
-            model.addAttribute("droptable", dropTable.get());
+        try {
+            DropTable dropTable = dropTableService.findById(id);
+            model.addAttribute("droptable", dropTable);
             return "droptableedit";
-        } else {
+        } catch (EntityNotFoundException e) {
             return "redirect:/droptables";
         }
     }

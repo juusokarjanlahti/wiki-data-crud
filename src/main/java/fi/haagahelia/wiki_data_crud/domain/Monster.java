@@ -1,5 +1,7 @@
 package fi.haagahelia.wiki_data_crud.domain;
 
+import java.util.ArrayList;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,6 +42,8 @@ public class Monster {
         this.monsterName = monsterName;
         this.monsterExamine = monsterExamine;
         this.combatLevel = combatLevel;
+        this.dropTable = new DropTable();
+        this.dropTable.setDropEntries(new ArrayList<>());
     }
 
     // Getters and setters

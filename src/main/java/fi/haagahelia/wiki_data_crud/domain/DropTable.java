@@ -11,6 +11,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,14 +28,16 @@ public class DropTable {
     private Monster monster;
 
     @OneToMany(mappedBy = "dropTable", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<DropEntry> dropEntries;
+    private List<DropEntry> dropEntries = new ArrayList<>();
 
     // Constructors
     public DropTable() {
+        this.dropEntries = new ArrayList<>();
     }
 
     public DropTable(String dropTableName) {
         this.dropTableName = dropTableName;
+        this.dropEntries = new ArrayList<>();
     }
 
     // Getters and setters

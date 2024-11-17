@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fi.haagahelia.wiki_data_crud.domain.DropEntry;
 import fi.haagahelia.wiki_data_crud.repository.DropEntryRepository;
@@ -27,6 +28,7 @@ public class DropEntryService {
         return dropEntryRepository.save(dropEntry);
     }
 
+    @Transactional
     public void deleteById(Long id) {
         dropEntryRepository.deleteById(id);
     }

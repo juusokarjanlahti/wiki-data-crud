@@ -1,13 +1,12 @@
 package fi.haagahelia.wiki_data_crud.service;
 
+import fi.haagahelia.wiki_data_crud.domain.DropTable;
+import fi.haagahelia.wiki_data_crud.repository.DropTableRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fi.haagahelia.wiki_data_crud.domain.DropTable;
-import fi.haagahelia.wiki_data_crud.repository.DropTableRepository;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DropTableService {
@@ -19,11 +18,15 @@ public class DropTableService {
         return dropTableRepository.findAll();
     }
 
-    public Optional<DropTable> findById(Long id) {
-        return dropTableRepository.findById(id);
+    public DropTable findById(Long id) {
+        return dropTableRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("DropTable not found with id: " + id));
     }
 
     public DropTable save(DropTable dropTable) {
+        if (dropTable.getDropEntries().isEmpty()) {
+            throw new IllegalArgumentException("DropTable must have at least one entry.");
+        }
         return dropTableRepository.save(dropTable);
     }
 

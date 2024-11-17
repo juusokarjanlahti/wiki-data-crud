@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
@@ -37,6 +38,19 @@ public class MonsterController {
             return "monsteradd";
         }
         monsterService.save(monster);
+        return "redirect:/monsters";
+    }
+
+    @GetMapping("/monsteredit")
+    public String editMonster(@RequestParam Long id, Model model) {
+        Monster monster = monsterService.findById(id);
+        model.addAttribute("monster", monster);
+        return "monsteredit";
+    }
+
+    @PostMapping("/deletemonster")
+    public String deleteMonster(@RequestParam Long id) {
+        monsterService.deleteById(id);
         return "redirect:/monsters";
     }
 }

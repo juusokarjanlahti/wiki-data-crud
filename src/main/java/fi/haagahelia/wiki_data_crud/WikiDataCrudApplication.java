@@ -1,5 +1,7 @@
 package fi.haagahelia.wiki_data_crud;
 
+import java.util.ArrayList;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -39,6 +41,7 @@ public class WikiDataCrudApplication {
 
             // Create drop table for the monster
             DropTable dragonDropTable = new DropTable("Dragon's Hoard");
+            dragonDropTable.setDropEntries(new ArrayList<>()); // Initialize with an empty list
 
             // Link the drop table to the monster (One-to-One)
             dragon.setDropTable(dragonDropTable);
@@ -51,6 +54,10 @@ public class WikiDataCrudApplication {
             DropEntry dropEntry1 = new DropEntry(dragonDropTable, item1, 100, 0.5);
             DropEntry dropEntry2 = new DropEntry(dragonDropTable, item2, 1, 0.1);
             DropEntry dropEntry3 = new DropEntry(dragonDropTable, item3, 1, 0.2);
+
+            dragonDropTable.getDropEntries().add(dropEntry1);
+            dragonDropTable.getDropEntries().add(dropEntry2);
+            dragonDropTable.getDropEntries().add(dropEntry3);
 
             dropEntryRepository.save(dropEntry1);
             dropEntryRepository.save(dropEntry2);
@@ -69,6 +76,7 @@ public class WikiDataCrudApplication {
 
             // Create drop table for the second monster
             DropTable goblinDropTable = new DropTable("Goblin's Loot");
+            goblinDropTable.setDropEntries(new ArrayList<>()); // Initialize with an empty list
 
             // Link the drop table to the monster (One-to-One)
             goblin.setDropTable(goblinDropTable);
@@ -81,6 +89,11 @@ public class WikiDataCrudApplication {
             DropEntry dropEntry4 = new DropEntry(goblinDropTable, item4, 50, 0.6);
             DropEntry dropEntry5 = new DropEntry(goblinDropTable, item5, 1, 0.05);
             DropEntry dropEntry6 = new DropEntry(goblinDropTable, item6, 1, 0.3);
+
+            goblinDropTable.getDropEntries().add(dropEntry4);
+            goblinDropTable.getDropEntries().add(dropEntry5);
+            goblinDropTable.getDropEntries().add(dropEntry6);
+
 
             dropEntryRepository.save(dropEntry4);
             dropEntryRepository.save(dropEntry5);
