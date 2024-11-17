@@ -13,6 +13,7 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
+						<th>Index</th>
 						<th>Name</th>
 						<th>Examine</th>
 						<th>Combat Level</th>
@@ -21,6 +22,7 @@
 				</thead>
 				<tbody>
 					<tr th:each="monster : ${monsters}">
+						<td th:text="${monster.monsterId}">1</td>
 						<td th:text="${monster.monsterName}"></td>
 						<td th:text="${monster.monsterExamine}"></td>
 						<td th:text="${monster.combatLevel}"></td>
