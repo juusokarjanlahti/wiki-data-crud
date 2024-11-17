@@ -8,14 +8,23 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
+
+    @NotBlank(message = "Item name is required")
+    @Size(min = 2, max = 50, message = "Item name must be between 2 and 50 characters")
     private String itemName;
+
+    @Min(value = 0, message = "Item value must be at least 0")
     private int itemValue;
+
     private boolean itemIsStackable;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -3,8 +3,10 @@ package fi.haagahelia.wiki_data_crud.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,6 +14,7 @@ import java.util.Optional;
 
 import fi.haagahelia.wiki_data_crud.domain.Item;
 import fi.haagahelia.wiki_data_crud.service.ItemService;
+import jakarta.validation.Valid;
 
 @Controller
 public class ItemController {
@@ -55,7 +58,10 @@ public class ItemController {
     }
 
     @PostMapping("/saveitem")
-    public String saveOrUpdateItem(Item item) {
+    public String saveItem(@Valid @ModelAttribute Item item, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "itemadd";
+        }
         itemService.save(item);
         return "redirect:/items";
     }

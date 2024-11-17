@@ -8,6 +8,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
 
 @Entity
@@ -15,6 +18,9 @@ public class DropTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long dropTableId;
+
+    @NotBlank(message = "Drop table name is required")
+    @Size(min = 2, max = 50, message = "Drop table name must be between 2 and 50 characters")
     private String dropTableName;
 
     @OneToOne(mappedBy = "dropTable", cascade = CascadeType.ALL, orphanRemoval = true)

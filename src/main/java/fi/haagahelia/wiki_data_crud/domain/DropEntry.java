@@ -8,25 +8,31 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class DropEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long dropEntryId;
-    
+
     @ManyToOne
     @JoinColumn(name = "dropTableId")
     @JsonIgnore
     private DropTable dropTable;
-    
+
     @ManyToOne
     @JoinColumn(name = "itemId")
+    @NotNull(message = "Item is required")
     private Item item;
-    
+
+    @Min(value = 1, message = "Quantity must be at least 1")
     private int quantity;
+
+    @Min(value = 0, message = "Drop rate must be at least 0")
     private double dropRate;
-    
+
     // Constructors
 
     public DropEntry() {

@@ -3,7 +3,9 @@ package fi.haagahelia.wiki_data_crud.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -11,6 +13,7 @@ import java.util.Optional;
 
 import fi.haagahelia.wiki_data_crud.domain.DropEntry;
 import fi.haagahelia.wiki_data_crud.service.DropEntryService;
+import jakarta.validation.Valid;
 
 @Controller
 public class DropEntryController {
@@ -54,7 +57,10 @@ public class DropEntryController {
     }
 
     @PostMapping("/savedropentry")
-    public String saveOrUpdateDropEntry(DropEntry dropEntry) {
+    public String saveDropEntry(@Valid @ModelAttribute DropEntry dropEntry, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "dropentryadd";
+        }
         dropEntryService.save(dropEntry);
         return "redirect:/dropentries";
     }
