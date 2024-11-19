@@ -1,24 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Edit Monster</title>
-</head>
-<body>
-    <h1>Edit Monster</h1>
-    <a href="/monsters">Back to Monster List</a>
-    <form th:action="@{/savemonster}" th:object="${monster}" method="post">
-        <input type="hidden" th:field="*{monsterId}" class="form-control" />
-        <input type="hidden" th:field="*{dropTable.dropTableId}" class="form-control" />
-        <label>Name:</label>
-        <input type="text" th:field="*{monsterName}" /><br>
-        
-        <label>Examine:</label>
-        <input type="text" th:field="*{monsterExamine}" /><br>
-        
-        <label>Combat Level:</label>
-        <input type="number" th:field="*{combatLevel}" /><br>
-        
-        <button type="submit">Save Changes</button>
-    </form>
-</body>
+	<head>
+		<title>Edit Monster</title>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		/>
+	</head>
+	<body>
+		<div class="container mt-5">
+			<h1 class="mb-4">Edit Monster</h1>
+			<a href="/monsters" class="btn btn-secondary mb-4"
+				>Back to Monster List</a
+			>
+			<form th:action="@{/savemonster}" th:object="${monster}" method="post">
+				<input type="hidden" th:field="*{monsterId}" class="form-control" />
+				<input
+					type="hidden"
+					th:field="*{dropTable.dropTableId}"
+					class="form-control"
+				/>
+
+				<div class="form-group">
+					<label for="monsterName">Name:</label>
+					<input
+						type="text"
+						id="monsterName"
+						th:field="*{monsterName}"
+						class="form-control"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="monsterExamine">Examine:</label>
+					<input
+						type="text"
+						id="monsterExamine"
+						th:field="*{monsterExamine}"
+						class="form-control"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="combatLevel">Combat Level:</label>
+					<input
+						type="number"
+						id="combatLevel"
+						th:field="*{combatLevel}"
+						class="form-control"
+					/>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Save Changes</button>
+			</form>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+	</body>
 </html>

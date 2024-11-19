@@ -11,6 +11,9 @@
 		<div class="container">
 			<h1>Monsters List</h1>
 			<a href="/items" class="btn btn-primary">View a list of all Items</a>
+			<form th:action="@{/logout}" method="post" style="display: inline">
+				<input type="submit" value="Sign Out" class="btn btn-secondary" />
+			</form>
 			<table class="table table-striped">
 				<thead>
 					<tr>
