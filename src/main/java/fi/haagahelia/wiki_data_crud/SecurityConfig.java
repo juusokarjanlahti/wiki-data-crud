@@ -18,8 +18,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize -> authorize
-                .anyRequest().authenticated()
-            )
+            .requestMatchers("/h2-console/**").permitAll() // Allow access to H2 console
+            .anyRequest().authenticated() // Require authentication for other requests
+        )
             .formLogin(formlogin -> formlogin
                 .loginPage("/login")
                 .defaultSuccessUrl("/monsters", true)
@@ -27,8 +28,11 @@ public class SecurityConfig {
             )
             .logout(logout -> logout
                 .permitAll()
-            );
-        return http.build();
+            )
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for H2 console
+                .headers(headers -> headers.frameOptions(
+                    frameOptions -> frameOptions.sameOrigin())); // Allow same origin for H2 console
+            return http.build();
     }
 
     @Bean
