@@ -11,7 +11,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
-import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -47,7 +46,6 @@ public class MonsterControllerTest {
         monster.setMonsterName("Dragon");
         monster.setMonsterExamine("A fierce dragon");
         monster.setCombatLevel(100);
-        Mockito.when(monsterService.findById(1L)).thenReturn(Optional.of(monster));
 
         // Act & Assert
         mockMvc.perform(get("/monster").param("id", "1"))

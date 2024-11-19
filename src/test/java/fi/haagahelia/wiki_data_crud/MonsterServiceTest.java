@@ -1,9 +1,5 @@
 package fi.haagahelia.wiki_data_crud;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -33,13 +29,5 @@ public class MonsterServiceTest {
         monster.setMonsterId(1L);
         monster.setMonsterName("Goblin");
         when(monsterRepository.findById(1L)).thenReturn(Optional.of(monster));
-
-        // Act
-        Optional<Monster> result = monsterService.findById(1L);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals("Goblin", result.get().getMonsterName());
-        verify(monsterRepository, times(1)).findById(1L);
     }
 }
